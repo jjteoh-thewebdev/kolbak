@@ -4,14 +4,14 @@ import { CreateWebhookDto } from './dto/create-webhook.dto';
 import { UpdateWebhookDto } from './dto/update-webhook.dto';
 import { QueryWebhooksDto } from './dto/query-webhooks.dto';
 import { WEBHOOKS_SERVICE_TOKEN } from './webhooks.constants';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { JWTorAPIKeyAuthGuard } from '../auth/guards/jwt-or-api-key-auth.guard';
 import { FastifyRequest } from 'fastify';
 
+@UseGuards(JWTorAPIKeyAuthGuard)
 @Controller({
     path: 'webhooks',
     version: '1'
 })
-@UseGuards(JwtAuthGuard)
 export class WebhooksController {
     constructor(
         @Inject(WEBHOOKS_SERVICE_TOKEN) private readonly webhooksService: IWebhooksService,

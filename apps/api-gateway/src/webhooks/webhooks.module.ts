@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { WebhooksController } from './webhooks.controller';
 import { WebhooksService } from './webhooks.service';
-import { MetadataDbModule } from '@metadata-db/metadata-db';
 import { WEBHOOKS_SERVICE_TOKEN } from './webhooks.constants';
+import { JWTorAPIKeyAuthGuard } from '../auth/guards/jwt-or-api-key-auth.guard';
 
 @Module({
     imports: [],
@@ -12,6 +12,7 @@ import { WEBHOOKS_SERVICE_TOKEN } from './webhooks.constants';
             provide: WEBHOOKS_SERVICE_TOKEN,
             useClass: WebhooksService,
         },
+        JWTorAPIKeyAuthGuard,
     ],
 })
 export class WebhooksModule { } 
