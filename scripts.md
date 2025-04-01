@@ -1,5 +1,5 @@
 -- create migration
-pnpm run migration:gen -- libs/metadata-db/src/migrations/YOUR_MIGRATION_NAME -d ./orm.config.ts
+pnpm run migration:gen libs/metadata-db/migrations/YOUR_MIGRATION_NAME -d ./orm.config.ts
 
 -- migrate up
 pnpm run migration:up -d ./orm.config.ts
