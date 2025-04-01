@@ -5,6 +5,7 @@ import { UpdateApiKeyDto } from './dto/update-api-key.dto';
 import { QueryApiKeysDto } from './dto/query-api-keys.dto';
 import { nanoid } from 'nanoid';
 import { AuthUser } from '../types/user';
+import { ArrayOverlap, In } from 'typeorm';
 
 export interface IApiKeysService {
     findOne(id: string, user: AuthUser): Promise<any>;
@@ -40,25 +41,33 @@ export class ApiKeysService implements IApiKeysService {
     }
 
     async findAll(query: QueryApiKeysDto, user: AuthUser) {
+        let { per_page, page } = query;
+        per_page = per_page ?? 10;
+        page = page ?? 1;
+
         const where: any = {
             tenantId: user.tenantId, // Only return API keys for the user's tenant
         };
 
         if (query.ids?.length) {
-            where.id = query.ids;
+            where.id = In(query.ids);
         }
         if (query.scopes?.length) {
-            where.scopes = query.scopes;
+            where.scopes = ArrayOverlap(query.scopes);
         }
 
-        const [apiKeys, total] = await this.apiKeyRepository.find(where);
+        const [apiKeys, total] = await this.apiKeyRepository.findAndCount({
+            where,
+            skip: (page - 1) * per_page,
+            take: per_page,
+        });
 
         return {
             data: apiKeys ?? [],
             error: null,
             pagination: {
-                limit: 20,
-                offset: 0,
+                per_page,
+                page,
                 total: total ?? 0,
             },
         };

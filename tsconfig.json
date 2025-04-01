@@ -23,6 +23,12 @@
       ],
       "@metadata-db/metadata-db/*": [
         "libs/metadata-db/src/*"
+      ],
+      "@utilities/utilities": [
+        "libs/utilities/src"
+      ],
+      "@utilities/utilities/*": [
+        "libs/utilities/src/*"
       ]
     }
   }

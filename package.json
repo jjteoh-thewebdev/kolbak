@@ -24,6 +24,7 @@
     "migration:down": "pnpm run typeorm migration:revert"
   },
   "dependencies": {
+    "@fastify/helmet": "^13.0.1",
     "@nestjs/common": "^11.0.12",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.12",
@@ -38,6 +39,7 @@
     "nanoid": "^5.1.5",
     "node-gyp": "^11.1.0",
     "pg": "^8.14.1",
+    "qs": "^6.14.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "typeorm": "^0.3.21",
@@ -50,6 +52,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/jest": "29.2.4",
     "@types/node": "18.11.18",
+    "@types/qs": "^6.9.18",
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
@@ -87,6 +90,7 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
+      "^@utilities/utilities(|/.*)$": "<rootDir>/libs/utilities/src/$1",
       "^metadata-db/metadata-db(|/.*)$": "<rootDir>/libs/metadata-db/src/$1"
     }
   }

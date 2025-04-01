@@ -1,14 +1,31 @@
-import { IsOptional, IsString } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { IsArray, IsInt, IsNumber, IsOptional, IsString, Min } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
+import { transformToArray } from '@utilities/utilities/parsers';
 
 export class QueryApiKeysDto {
-    @IsString()
     @IsOptional()
-    @Transform(({ value }) => value?.split(','))
+    @IsString({ each: true })
+    @IsArray()
+    @Type(() => String)
     ids?: string[];
 
-    @IsString()
     @IsOptional()
-    @Transform(({ value }) => value?.split(','))
+    @IsString({ each: true })
+    @IsArray()
+    @Type(() => String)
     scopes?: string[];
+
+    @IsOptional()
+    @IsInt()
+    @Min(1)
+    @Type(() => Number)
+    per_page?: number;
+
+    @IsOptional()
+    @IsInt()
+    @Min(1)
+    @Type(() => Number)
+    page?: number;
+
+
 } 
