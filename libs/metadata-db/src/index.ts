@@ -4,3 +4,4 @@ export * from './entities/webhook';
 export * from './entities/tenant';
 export * from './entities/base';
 export * from './repositories/tenant.repository';
+export * from './repositories/api-key.repository';

@@ -6,13 +6,7 @@ import { MetadataDbModule } from '@metadata-db/metadata-db';
 import { AUTH_SERVICE_TOKEN } from './auth.constants';
 
 @Module({
-    imports: [
-        JwtModule.register({
-            secret: process.env.JWT_SECRET || 'your-secret-key',
-            signOptions: { expiresIn: '1h' },
-        }),
-        MetadataDbModule.register(),
-    ],
+    imports: [],
     controllers: [AuthController],
     providers: [{ provide: AUTH_SERVICE_TOKEN, useClass: AuthService }],
 })

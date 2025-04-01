@@ -4,8 +4,9 @@ import { ConfigModule } from '@nestjs/config';
 import { ApiGatewayController } from './api-gateway.controller';
 import * as path from 'path';
 import { AuthModule } from './auth/auth.module';
+import { ApiKeysModule } from './api-keys/api-keys.module';
+import { JwtModule } from '@nestjs/jwt';
 
-console.log(path.resolve(__dirname, '../.env.api-gateway'))
 
 @Module({
   imports: [
@@ -22,7 +23,13 @@ console.log(path.resolve(__dirname, '../.env.api-gateway'))
       database: process.env.DATABASE_NAME,
       synchronize: false,
     }),
-    AuthModule
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET || 'your-secret-key',
+      signOptions: { expiresIn: '1h' },
+    }),
+    AuthModule,
+    ApiKeysModule
   ],
   controllers: [ApiGatewayController],
 })

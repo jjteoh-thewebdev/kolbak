@@ -17,9 +17,7 @@ export class AuthService implements IAuthService {
     ) { }
 
     async authenticate(authRequest: AuthRequestDto) {
-        const tenant = await this.tenantRepository.findOneBy({
-            id: authRequest.client_id
-        });
+        const tenant = await this.tenantRepository.findOneWithId(authRequest.client_id);
 
         // compare hashed secret
         if (!tenant || !(await bcrypt.compare(authRequest.client_secret, tenant.secret))) {

@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne } from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import { Tenant } from "./tenant";
 import { BaseEntity } from "./base";
 
@@ -22,6 +22,8 @@ export class Webhook extends BaseEntity {
     @Column({ name: "tenant_id" })
     tenantId: string;
 
-    @ManyToOne(() => Tenant, (tenant) => tenant.webhooks)
+    @ManyToOne(() => Tenant, (tenant) => tenant.webhooks, { createForeignKeyConstraints: false })
+    @JoinColumn({ name: 'tenant_id' })
+    @Index()
     tenant: Tenant;
 }

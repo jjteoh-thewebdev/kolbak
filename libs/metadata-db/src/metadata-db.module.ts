@@ -7,6 +7,7 @@ import { ApiKey } from './entities/api-key';
 import { Tenant } from './entities/tenant';
 import { Webhook } from './entities/webhook';
 import { TenantRepository } from './repositories/tenant.repository';
+import { ApiKeyRepository } from './repositories/api-key.repository';
 
 // Define all entities
 const entities = [
@@ -17,6 +18,7 @@ const entities = [
 
 const repositories = [
   TenantRepository,
+  ApiKeyRepository
 ];
 
 /**

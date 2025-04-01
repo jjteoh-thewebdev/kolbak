@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { BaseEntity } from "./base";
 import { Tenant } from "./tenant";
 
@@ -19,6 +19,13 @@ export class ApiKey extends BaseEntity {
     @Column({ name: "tenant_id" })
     tenantId: string;
 
-    @ManyToOne(() => Tenant, (tenant) => tenant.apiKeys)
+    @ManyToOne(() => Tenant, (tenant) => tenant.apiKeys, { createForeignKeyConstraints: false })
+    @JoinColumn({ name: 'tenant_id' })
+    @Index()
     tenant: Tenant;
+
+    @BeforeInsert()
+    setLastAccessedAt() {
+        this.lastAccessedAt = new Date();
+    }
 }

@@ -17,6 +17,8 @@ export class BaseEntity {
 
     @BeforeInsert()
     generateId() {
-        this.id = ulid();
+        if (!this.id) {
+            this.id = ulid();
+        }
     }
 }
