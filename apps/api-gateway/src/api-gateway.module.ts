@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ApiGatewayController } from './api-gateway.controller';
 import * as path from 'path';
+import { AuthModule } from './auth/auth.module';
 
 console.log(path.resolve(__dirname, '../.env.api-gateway'))
 
@@ -21,6 +22,7 @@ console.log(path.resolve(__dirname, '../.env.api-gateway'))
       database: process.env.DATABASE_NAME,
       synchronize: false,
     }),
+    AuthModule
   ],
   controllers: [ApiGatewayController],
 })

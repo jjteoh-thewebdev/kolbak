@@ -4,7 +4,7 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 
@@ -14,6 +14,10 @@ async function bootstrap() {
     new FastifyAdapter()
   );
 
+  app.setGlobalPrefix(`api`);
+  app.enableVersioning({
+    type: VersioningType.URI,
+  });
 
   app.useGlobalPipes(new ValidationPipe());
 

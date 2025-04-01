@@ -6,12 +6,17 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ApiKey } from './entities/api-key';
 import { Tenant } from './entities/tenant';
 import { Webhook } from './entities/webhook';
+import { TenantRepository } from './repositories/tenant.repository';
 
 // Define all entities
 const entities = [
   ApiKey,
   Tenant,
   Webhook,
+];
+
+const repositories = [
+  TenantRepository,
 ];
 
 /**
@@ -22,8 +27,10 @@ const entities = [
   imports: [
     TypeOrmModule.forFeature(entities),
   ],
+  providers: [...repositories],
   exports: [
     TypeOrmModule.forFeature(entities),
+    ...repositories,
   ],
 })
 export class MetadataDbModule {
@@ -45,8 +52,10 @@ export class MetadataDbModule {
       imports: [
         TypeOrmModule.forFeature(entities),
       ],
+      providers: [...repositories],
       exports: [
         TypeOrmModule.forFeature(entities),
+        ...repositories,
       ],
     };
   }
@@ -100,8 +109,10 @@ export class MetadataDbModule {
         }),
         TypeOrmModule.forFeature(entities),
       ],
+      providers: [...repositories],
       exports: [
         TypeOrmModule.forFeature(entities),
+        ...repositories,
       ],
     };
   }
@@ -152,6 +163,7 @@ export class MetadataDbModule {
         }),
         TypeOrmModule.forFeature(entities),
       ],
+      providers: [...repositories],
       exports: [
         TypeOrmModule.forFeature(entities),
       ],
