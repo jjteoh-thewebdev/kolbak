@@ -2,10 +2,10 @@ import { MetadataDbModule } from '@metadata-db/metadata-db';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ApiGatewayController } from './api-gateway.controller';
-import * as path from 'path';
 import { AuthModule } from './auth/auth.module';
 import { ApiKeysModule } from './api-keys/api-keys.module';
 import { JwtModule } from '@nestjs/jwt';
+import { WebhooksModule } from './webhooks/webhooks.module';
 
 
 @Module({
@@ -29,7 +29,8 @@ import { JwtModule } from '@nestjs/jwt';
       signOptions: { expiresIn: '1h' },
     }),
     AuthModule,
-    ApiKeysModule
+    ApiKeysModule,
+    WebhooksModule
   ],
   controllers: [ApiGatewayController],
 })

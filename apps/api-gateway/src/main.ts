@@ -28,8 +28,10 @@ async function bootstrap() {
     type: VersioningType.URI,
   });
 
-  // useContainer(app.select(ApiGatewayModule), { fallbackOnErrors: true });
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.useGlobalPipes(new ValidationPipe({
+    transform: true,
+    whitelist: true
+  }));
   app.useGlobalInterceptors(new SnakeCaseInterceptor());
   app.useGlobalFilters(new HttpExceptionFilter());
 

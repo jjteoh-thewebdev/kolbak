@@ -83,7 +83,7 @@ export class ApiKeysService implements IApiKeysService {
         await this.apiKeyRepository.save(apiKey);
 
         return {
-            data: apiKey,
+            data: await this.apiKeyRepository.findOneWithId(apiKey.id),
             error: null,
             pagination: null,
         };
@@ -101,10 +101,10 @@ export class ApiKeysService implements IApiKeysService {
             throw new ForbiddenException('You do not have permission to update this API key');
         }
 
-        const updatedApiKey = await this.apiKeyRepository.update(id, updateApiKeyDto);
+        await this.apiKeyRepository.update(id, updateApiKeyDto);
 
         return {
-            data: updatedApiKey,
+            data: await this.apiKeyRepository.findOneWithId(id),
             error: null,
             pagination: null,
         };
