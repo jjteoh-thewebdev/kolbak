@@ -19,7 +19,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
         let errorMessage: string | ValidationError[] = exception.message || 'An error occurred';
 
-        console.log(exceptionResponse);
+        console.error(exceptionResponse);
 
         // Handle class-validator errors
         // TODO: handling nested errors

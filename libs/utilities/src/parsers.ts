@@ -11,7 +11,6 @@ export const transformToBoolean = ({
 }
 
 export function transformToArray({ value }: { value: string }) {
-    console.log(`value`, value)
     if (!value || [``, `''`, `[]`].includes(value + '')) return []
 
     return Array.isArray(value) ? value : [value]

@@ -19,6 +19,15 @@
         "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
       }
     },
+    "delivery-manager": {
+      "type": "application",
+      "root": "apps/delivery-manager",
+      "entryFile": "main",
+      "sourceRoot": "apps/delivery-manager/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/delivery-manager/tsconfig.app.json"
+      }
+    },
     "dispatcher-service": {
       "type": "application",
       "root": "apps/dispatcher-service",

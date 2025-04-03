@@ -3,7 +3,8 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthRequestDto } from './dto/auth.request.dto';
 import { TenantRepository } from '@metadata-db/metadata-db';
 import { AuthResponse } from './dto/auth.response.dto';
-import * as bcrypt from 'bcrypt';
+import { decrypt } from '@utilities/utilities';
+import { ConfigService } from '@nestjs/config';
 
 export interface IAuthService {
     authenticate(authRequest: AuthRequestDto): Promise<AuthResponse>;
@@ -12,15 +13,17 @@ export interface IAuthService {
 @Injectable()
 export class AuthService implements IAuthService {
     constructor(
-        private readonly jwtService: JwtService,
-        private readonly tenantRepository: TenantRepository,
+        private readonly _jwtService: JwtService,
+        private readonly _tenantRepository: TenantRepository,
+        private readonly _configService: ConfigService,
     ) { }
 
     async authenticate(authRequest: AuthRequestDto) {
-        const tenant = await this.tenantRepository.findOneWithId(authRequest.clientId);
+        const tenant = await this._tenantRepository.findOneWithId(authRequest.clientId);
+        const systemSecretKey = this._configService.getOrThrow('SECRET_KEY');
 
         // compare hashed secret
-        if (!tenant || !(await bcrypt.compare(authRequest.clientSecret, tenant.secret))) {
+        if (!tenant || (await decrypt(tenant.secret, systemSecretKey)) !== authRequest.clientSecret) {
             throw new UnauthorizedException('Invalid client credentials');
         }
 
@@ -30,7 +33,7 @@ export class AuthService implements IAuthService {
         };
 
         return {
-            accessToken: this.jwtService.sign(payload),
+            accessToken: this._jwtService.sign(payload),
             tokenType: 'Bearer',
             expiresIn: 3600,
         };

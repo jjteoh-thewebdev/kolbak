@@ -13,4 +13,12 @@ export class WebhookRepository extends Repository<Webhook> {
     async findOneWithId(id: string) {
         return this.findOneBy({ id });
     }
+
+    async findByEvent(event: string) {
+        return this.find({
+            where: {
+                event: event,
+            },
+        });
+    }
 }

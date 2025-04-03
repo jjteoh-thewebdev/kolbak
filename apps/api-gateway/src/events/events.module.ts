@@ -15,7 +15,7 @@ import { ConfigService } from '@nestjs/config';
                     options: {
                         client: {
                             clientId: configService.getOrThrow('KAFKA_CLIENT_ID'),
-                            brokers: configService.getOrThrow('KAFKA_BROKERS').split(','),
+                            brokers: configService.getOrThrow<string>('KAFKA_BROKERS').split(','),
                             retry: {
                                 // retries: 10,
                                 factor: 2,

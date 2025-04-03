@@ -1,16 +1,16 @@
 import { NestFactory } from '@nestjs/core';
-import { DispatcherServiceModule } from './dispatcher-service.module';
-import { AsyncMicroserviceOptions, MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { DeliveryManagerModule } from './delivery-manager.module';
 import { ConfigService } from '@nestjs/config';
+import { AsyncMicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice<AsyncMicroserviceOptions>(DispatcherServiceModule,
+  const app = await NestFactory.createMicroservice<AsyncMicroserviceOptions>(DeliveryManagerModule,
     {
       useFactory: (configService: ConfigService) => ({
         transport: Transport.KAFKA,
         options: {
           client: {
-            clientId: 'dispatcher-service',
+            clientId: 'delivery-service',
             brokers: configService.getOrThrow('KAFKA_BROKERS').split(','),
             connectionTimeout: 8000,
             retry: {
@@ -45,6 +45,6 @@ async function bootstrap() {
 
   app.listen()
 
-  console.log('Dispatcher service started');
+  console.log('delivery manager started');
 }
 bootstrap();

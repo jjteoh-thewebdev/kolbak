@@ -16,9 +16,6 @@ export class Webhook extends BaseEntity {
     @Column({ name: "is_active" })
     isActive: boolean
 
-    @Column()
-    secret: string;
-
     @Column({ name: "tenant_id" })
     tenantId: string;
 

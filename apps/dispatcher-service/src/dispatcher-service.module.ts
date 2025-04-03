@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { DispatcherController } from './dispatcher.controller';
 import { HttpModule } from '@nestjs/axios';
 import { MetadataDbModule } from '@metadata-db/metadata-db';
+import { DISPATCHER_SERVICE_TOKEN } from './constants';
 
 @Module({
   imports: [
@@ -29,7 +30,10 @@ import { MetadataDbModule } from '@metadata-db/metadata-db';
   ],
   controllers: [DispatcherController],
   providers: [
-    DispatcherService,
+    {
+      provide: DISPATCHER_SERVICE_TOKEN,
+      useClass: DispatcherService,
+    },
   ],
 })
 export class DispatcherServiceModule {}
