@@ -1,3 +1,26 @@
+
+### <strong>!!!NOTE</strong>: WIP
+some features still in development, doc below does not reflect latest changes.
+
+Author's TODO:
+- Delivery Tracking with Apache Cassandra
+- Retry Mechanism
+- Error Handling, Dead letter queue
+- Security for internal communication via Kafka, SASL auth, encrypted message
+- Centralized Logging
+- Cron for cleanup Cassandra outdated logs
+- Dockerize apps
+- [optional] Testing - mainly on e2e test, unit test on utility
+- [optional] Webhook Dashboard
+- [optional] Kubernetes
+
+
+<hr />
+
+
+
+
+
 # Project Overview
 
 Kolbak - a webhook service that is built with Nest.js.
