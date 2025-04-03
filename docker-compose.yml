@@ -18,19 +18,49 @@ services:
     networks:
       - kolbak-network
 
-  redis:
-    image: redis:7-alpine
-    container_name: kolbak-redis
-    command: redis-server --requirepass redis123
+  kafka:
+    image: apache/kafka:3.7.0
+    container_name: kafka
     ports:
-      - "6379:6379"
+      - "9092:9092"      # Kafka broker port
+      - "9093:9093"      # Controller listener port
+      - "29092:29092"    # External access port(for app not running in docker)
+    environment:
+      - KAFKA_NODE_ID=1
+      - KAFKA_PROCESS_ROLES=broker,controller
+      - KAFKA_CONTROLLER_QUORUM_VOTERS=1@kafka:9093
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093,EXTERNAL://0.0.0.0:29092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://localhost:29092
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS=0
+      - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1
+      - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
+      - CLUSTER_ID=LkO5_t82T_-LnmZYP9ZVmg
     volumes:
-      - redis_data:/data
+      - kafka_data:/var/lib/kafka/data
+    restart: unless-stopped
     healthcheck:
-      test: ["CMD", "redis-cli", "-a", "redis123", "ping"]
-      interval: 5s
-      timeout: 5s
+      test: ["CMD", "kafka-topics.sh", "--bootstrap-server", "localhost:9092", "--list"]
+      interval: 30s
+      timeout: 10s
       retries: 5
+    networks:
+      - kolbak-network
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    ports:
+      - "8080:8080"
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+    depends_on:
+      - kafka
+    restart: unless-stopped
     networks:
       - kolbak-network
 
@@ -40,4 +70,4 @@ networks:
 
 volumes:
   postgres_data:
-  redis_data:
+  kafka_data:

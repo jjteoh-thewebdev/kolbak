@@ -41,8 +41,8 @@ export class ApiKeysService implements IApiKeysService {
     }
 
     async findAll(query: QueryApiKeysDto, user: AuthUser) {
-        let { per_page, page } = query;
-        per_page = per_page ?? 10;
+        let { perPage, page } = query;
+        perPage = perPage ?? 10;
         page = page ?? 1;
 
         const where: any = {
@@ -58,15 +58,15 @@ export class ApiKeysService implements IApiKeysService {
 
         const [apiKeys, total] = await this.apiKeyRepository.findAndCount({
             where,
-            skip: (page - 1) * per_page,
-            take: per_page,
+            skip: (page - 1) * perPage,
+            take: perPage,
         });
 
         return {
             data: apiKeys ?? [],
             error: null,
             pagination: {
-                per_page,
+                perPage,
                 page,
                 total: total ?? 0,
             },

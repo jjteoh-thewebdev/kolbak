@@ -19,7 +19,7 @@ export class QueryApiKeysDto {
     @IsInt()
     @Min(1)
     @Type(() => Number)
-    per_page?: number;
+    perPage?: number;
 
     @IsOptional()
     @IsInt()

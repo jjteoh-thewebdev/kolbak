@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { ApiKeysModule } from './api-keys/api-keys.module';
 import { JwtModule } from '@nestjs/jwt';
 import { WebhooksModule } from './webhooks/webhooks.module';
+import { EventsModule } from './events/events.module';
 
 
 @Module({
@@ -30,7 +31,8 @@ import { WebhooksModule } from './webhooks/webhooks.module';
     }),
     AuthModule,
     ApiKeysModule,
-    WebhooksModule
+    WebhooksModule,
+    EventsModule
   ],
   controllers: [ApiGatewayController],
 })

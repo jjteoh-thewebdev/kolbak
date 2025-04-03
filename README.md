@@ -367,8 +367,12 @@ Response Body
 ```json
 // 202 Accepted
 {
-    "id": "evt_producer_unique_id_12345",
-    "message": "Event accepted for processing."
+    "data": {
+        "id": "evt_producer_unique_id_12345",
+        "message": "Event accepted for processing."
+    },
+    "error": null,
+    "pagination": null
 }
 ```
 

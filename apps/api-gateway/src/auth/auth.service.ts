@@ -2,11 +2,11 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthRequestDto } from './dto/auth.request.dto';
 import { TenantRepository } from '@metadata-db/metadata-db';
-import { IAuthResponse } from './dto/auth.response.dto';
+import { AuthResponse } from './dto/auth.response.dto';
 import * as bcrypt from 'bcrypt';
 
 export interface IAuthService {
-    authenticate(authRequest: AuthRequestDto): Promise<IAuthResponse>;
+    authenticate(authRequest: AuthRequestDto): Promise<AuthResponse>;
 }
 
 @Injectable()
@@ -17,10 +17,10 @@ export class AuthService implements IAuthService {
     ) { }
 
     async authenticate(authRequest: AuthRequestDto) {
-        const tenant = await this.tenantRepository.findOneWithId(authRequest.client_id);
+        const tenant = await this.tenantRepository.findOneWithId(authRequest.clientId);
 
         // compare hashed secret
-        if (!tenant || !(await bcrypt.compare(authRequest.client_secret, tenant.secret))) {
+        if (!tenant || !(await bcrypt.compare(authRequest.clientSecret, tenant.secret))) {
             throw new UnauthorizedException('Invalid client credentials');
         }
 
@@ -30,9 +30,9 @@ export class AuthService implements IAuthService {
         };
 
         return {
-            access_token: this.jwtService.sign(payload),
-            token_type: 'Bearer',
-            expires_in: 3600,
+            accessToken: this.jwtService.sign(payload),
+            tokenType: 'Bearer',
+            expiresIn: 3600,
         };
     }
 } 
